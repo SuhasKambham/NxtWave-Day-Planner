@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 
 const STATUS_COLORS = {
@@ -23,7 +23,7 @@ const ManagerDashboard = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.get(`/api/admin/search?q=${query}`, {
+      const res = await api.get(`/api/admin/search?q=${query}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEmployees(res.data);
@@ -40,7 +40,7 @@ const ManagerDashboard = () => {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.get(`/api/admin/${emp._id}/${date}`, {
+      const res = await api.get(`/api/admin/${emp._id}/${date}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPlan(res.data);
@@ -57,7 +57,7 @@ const ManagerDashboard = () => {
       setLoading(true);
       setError("");
       try {
-        const res = await axios.get(`/api/admin/${selectedEmployee._id}/${e.target.value}`, {
+        const res = await api.get(`/api/admin/${selectedEmployee._id}/${e.target.value}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPlan(res.data);

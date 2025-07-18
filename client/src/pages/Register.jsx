@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import api from "../api/axios";
 
 const Register = () => {
   const { register, loading, error } = useAuth();
@@ -19,10 +20,13 @@ const Register = () => {
       setFormError("Please fill all fields.");
       return;
     }
-    const res = await register(name, email, password, role);
-    if (res.success) {
+    // Use central api instance
+    try {
+      await api.post("/api/auth/register", { name, email, password, role });
       setSuccess(true);
       setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      setFormError(err.response?.data?.message || "Registration failed");
     }
   };
 

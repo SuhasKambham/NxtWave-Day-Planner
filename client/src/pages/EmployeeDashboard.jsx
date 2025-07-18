@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import PlanForm from "../components/PlanForm";
 import ReminderModal from "../components/ReminderModal";
@@ -33,7 +33,7 @@ const EmployeeDashboard = () => {
     // Fetch yesterday's plan for reminder
     const fetchYesterday = async () => {
       try {
-        const res = await axios.get("/api/plans/yesterday", {
+        const res = await api.get("/api/plans/yesterday", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data && res.data.entries) {
@@ -54,7 +54,7 @@ const EmployeeDashboard = () => {
     // Fetch today's plan (if any)
     const fetchToday = async () => {
       try {
-        const res = await axios.get("/api/plans/today", {
+        const res = await api.get("/api/plans/today", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data && res.data.entries && res.data.entries.length > 0) {
@@ -77,7 +77,7 @@ const EmployeeDashboard = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(
+      await api.post(
         "/api/plans/today",
         { entries },
         { headers: { Authorization: `Bearer ${token}` } }

@@ -17,12 +17,14 @@ const Login = () => {
       setFormError("Please enter both email and password.");
       return;
     }
-    // Optionally, you can send role to backend for extra validation
-    const res = await login(email, password);
+    const res = await login(email, password, role);
     if (res.success) {
+      if (res.role !== role) {
+        setFormError("Role mismatch. Please select the correct login type.");
+        return;
+      }
       if (res.role === "employee") navigate("/employee/dashboard");
       else if (res.role === "manager") navigate("/manager/dashboard");
-      else setFormError("Role mismatch. Please check your credentials.");
     }
   };
 
